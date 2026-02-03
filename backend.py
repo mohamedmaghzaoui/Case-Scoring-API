@@ -5,14 +5,16 @@ app = FastAPI()
 folders_list = []
 
 def calculate_score(folder: DisasterFolder):
- 
-    type_sinistre=folder.type_sinistre
-    if type_sinistre=="Automobile":
-        T=10
-    elif type_sinistre=="Habitation":
-        T=15
+
+    type_sinistre = folder.type_sinistre.strip().lower()
+
+    if type_sinistre == "automobile":
+        T = 10
+    elif type_sinistre == "habitation":
+        T = 15
     else:
-        T=20
+        T = 20
+
 
 
     montant = folder.montant_estime_euros
@@ -57,9 +59,10 @@ def calculate_score(folder: DisasterFolder):
 @app.post("/folders/")
 def evaluate_folder(folder: DisasterFolder):
 
-    if folder.type_sinistre not in ["Automobile", "Habitation", "Responsabilité"]:
-        raise HTTPException(status_code=400, detail="Invalid disaster type")
+    type_clean = folder.type_sinistre.strip().lower()
 
+    if type_clean not in ["automobile", "habitation", "responsabilité"]:
+        raise HTTPException(status_code=400, detail="Invalid disaster type")
     result = calculate_score(folder)
 
     data = {
