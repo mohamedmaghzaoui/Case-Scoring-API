@@ -8,5 +8,4 @@ class DisasterFolder(BaseModel):
     anciennete_contrat_mois: int
     nombre_sinistres_anterieurs: int
     age_assure: int
-    score: float = None
-    decision: str = None
+

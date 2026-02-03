@@ -55,23 +55,30 @@ def calculate_score(folder: DisasterFolder):
     return {"score": score, "decision": decision}
 
 @app.post("/folders/")
-def evaluer_folder(folder: DisasterFolder):
-   
-   if(folder.type_sinistre not in ["Automobile", "Habitation", "Responsabilité"]):
-        raise HTTPException(status_code=404, detail="invalid disaster type")
-   
-   result = calculate_score(folder) 
-   folder.score = result["score"]
-   folder.decision = result["decision"]
-   folders_list.append(folder)  
-   return {"identifiant_sinistre": folder.identifiant_sinistre, "score": folder.score, "decision":  folder.decision}
+def evaluate_folder(folder: DisasterFolder):
+
+    if folder.type_sinistre not in ["Automobile", "Habitation", "Responsabilité"]:
+        raise HTTPException(status_code=400, detail="Invalid disaster type")
+
+    result = calculate_score(folder)
+
+    data = {
+        "identifiant_sinistre": folder.identifiant_sinistre,
+        "score": result["score"],
+        "decision": result["decision"]
+    }
+
+    folders_list.append(data)
+    return data
 
 
 @app.get("/folders/{identifiant}")
 def consult_folder(identifiant: str):
+
     for folder in folders_list:
-        if folder.identifiant_sinistre == identifiant:
-            return {"identifiant_sinistre": folder.identifiant_sinistre , "decision": folder.decision, "score": folder.score}
+        if folder["identifiant_sinistre"] == identifiant:
+            return folder
+
     raise HTTPException(status_code=404, detail="Dossier non trouvé")
 
 
