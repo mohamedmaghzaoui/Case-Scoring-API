@@ -45,7 +45,7 @@ def calculate_score(folder: DisasterFolder):
     else:
         G = 5
 
-    score = max(0, min(100, T + M + A + S + G))
+    score = min (100, max (0, T + M + A + S + G))
 
     if score < 35:
         decision = "Accepté"
