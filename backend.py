@@ -20,7 +20,7 @@ def calculate_score(folder: DisasterFolder):
     montant = folder.montant_estime_euros
     if montant < 500:
         M = 0
-    elif montan< 2000:
+    elif montant< 2000:
         M = 10
     elif montant < 5000:
         M = 20
@@ -73,6 +73,7 @@ def evaluate_folder(folder: DisasterFolder):
 
     folders_list.append(data)
     return data
+
 
 
 @app.get("/folders/{identifiant}")
