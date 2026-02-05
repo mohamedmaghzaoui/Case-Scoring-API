@@ -51,10 +51,13 @@ def calculate_score(folder: DisasterFolder):
         decision = "Accepté"
     elif score < 70:
         decision = "Analyse requise"
+        
     else:
         decision = "Bloqué"
 
     return {"score": score, "decision": decision}
+
+
 
 @app.post("/folders/")
 def evaluate_folder(folder: DisasterFolder):
